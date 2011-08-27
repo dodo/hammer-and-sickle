@@ -10,7 +10,7 @@ class exports.Preview
         @engine = new Engine
             skysrc: "/img/sky.png"
             canvas: @canvas[0]
-            quality: 0.4
+            quality: 1.0
 
         client.api.on 'tick', ({t, start, stop}) =>
             #console.log 'in', start.x, start.y, stop.x, stop.y

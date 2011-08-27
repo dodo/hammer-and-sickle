@@ -11,7 +11,7 @@ class exports.DrawBuffer extends EventEmitter
         setInterval ( =>
             @tick()
             @propagate()
-        ), 200
+        ), 250
 
     propagate: =>
         return unless @listeners('data').length
@@ -24,7 +24,7 @@ class exports.DrawBuffer extends EventEmitter
     drawBase64: (x, y, data, callback) ->
         img = new Image
         img.onload = =>
-            @ctx.drawImage img, x, y, img.width, img.height
+            @ctx.drawImage img, x*1.1, y*1.1, img.width, img.height
             callback? img
         img.src = new Buffer data, 'base64'
 
