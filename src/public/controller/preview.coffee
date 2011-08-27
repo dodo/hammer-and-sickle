@@ -13,5 +13,7 @@ class exports.Preview
             quality: 0.4
 
         fps = $('#fps')
-        @engine.fps.callback = (value) ->
+        @engine.fps.bind 'draw', (value) ->
             fps.text("#{value} fps")
+        @engine.bind 'tick', ({canvas}) ->
+            client.api.emit 'data', canvas.toDataURL()

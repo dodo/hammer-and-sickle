@@ -278,7 +278,7 @@ class Animator
             p.point.z = Math.sin(p.alpha + @t * p.speed) * p.radius
             i++
 
-class FPSCounter
+class FPSCounter extends Backbone.EventEmitter
     constructor: (@ctx) ->
         @t = new Date().getTime() / 1000.0
         @n = 0
@@ -292,11 +292,11 @@ class FPSCounter
             @value = Math.round(50.0 / (t - @t) * 100) / 100
             @t = t
         #@ctx.fillText @value, 1, 10
-        @callback? @value
+        @trigger 'draw', @value
 
 # exports
 
-class exports.Engine
+class exports.Engine extends Backbone.EventEmitter
 
     constructor: ({@canvas, skysrc, @quality, @motionblur}) ->
         @ctx = @canvas.getContext "2d"
@@ -358,5 +358,6 @@ class exports.Engine
         @scene.camera.update()
         @renderer.render()
         @ctx.drawImage @buffer, 0, 0, @canvas.width, @canvas.height
+        @trigger 'tick', this
         @fps.draw()
 

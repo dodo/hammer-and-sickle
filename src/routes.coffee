@@ -12,3 +12,6 @@ module.exports = bind:(srv) ->
         client.broadcast.emit 'view count', connections
         client.on 'disconnect', ->
             client.broadcast.emit 'view count', --connections
+
+        client.on 'data', (data) ->
+            console.log "got image data:", data.length
