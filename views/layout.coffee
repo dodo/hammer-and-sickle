@@ -8,7 +8,7 @@ html ->
         script src: "/websocket/socket.io.js"
         script src: "/js/require.js"
         coffeescript ->
-            require './jquery'
+            $ = require 'jquery'
             { client } = require './client'
             $('document').ready client.start
     body ->

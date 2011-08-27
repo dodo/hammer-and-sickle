@@ -44,7 +44,6 @@ class HTTPServer
                 require: [
                     'underscore'
                     'backbone'
-                    path.join(public_path, 'jquery')
                     path.join(public_path, 'client')
                     jquery:'jquery-browserify'
                 ]
