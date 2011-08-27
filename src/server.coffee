@@ -6,6 +6,9 @@ require 'colors'
 http = require 'http'
 cli = require 'cli'
 io = require 'socket.io'
+io_session = require 'socket.io-sessions'
+express = require 'express'
+RedisStore = require('connect-redis')(express)
 Master = require 'cluster/lib/master'
 bridge = require 'cluster-socket.io'
 cluster = require 'cluster'
@@ -14,13 +17,22 @@ class Cluster extends Master
 
     constructor: (@port = 3000, @host = 'localhost') ->
         super http.createServer()
-        @server = require('./http').server if @isWorker
+        @http = require('./http') if @isWorker
         @configure()
 
     configure: () =>
         console.log("configuring #{['worker','master'][0+@isMaster]} server …")
 
-        ws = @websocket = @server.ws = io.listen(@server)
+        sessionstore = new RedisStore
+        if @http
+            @http.configure sessionstore
+            @server = @http.server
+
+        ws = @websocket = @server.ws = io_session.enable
+            socket: io.listen(@server)
+            parser: express.cookieParser()
+            store: sessionstore
+
         ws.enable('browser client minification')
         ws.enable('browser client etag')
         ws.set('resource', "/websocket")

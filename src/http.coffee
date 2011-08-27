@@ -20,9 +20,6 @@ format = [
 class HTTPServer
     constructor: () ->
         @server = express.createServer()
-        process.nextTick =>
-            @configure = @configure()
-            @create()
 
     set: => @server.set.apply @server, arguments
     register: => @server.register.apply @server, arguments
@@ -30,7 +27,11 @@ class HTTPServer
         console.log "* configure #{name} …" if off
         @server.use args...
 
-    configure: =>
+    configure: (@sessionstore) =>
+        @configure = @_configure()
+        @create()
+
+    _configure: =>
         debug: =>
             @use 'logger', express.logger {format}
 
@@ -74,6 +75,7 @@ class HTTPServer
         session: =>
             @use 'session', express.session
                 secret: "trolltrolltrolltrolltroll"
+                store:@sessionstore
 
         error: =>
             @use 'errorHandler', express.errorHandler
@@ -97,7 +99,7 @@ class HTTPServer
 
     create: =>
         @server.configure @configure.basic
-        routes.bind @server
+        process.nextTick => routes.bind @server
 
 
 # exports
