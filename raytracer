@@ -8,6 +8,7 @@ done
 if [ ! $nobuild ] && [ ! $help ]; then
     env node-waf build || exit 1
     rm -f public/css/*.css
+    cp vendor/css-normalize/normalize.css public/css/
 fi
 cd build/default
 exec env node server.js $@

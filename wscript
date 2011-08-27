@@ -1,5 +1,6 @@
 from os.path import dirname, join
 import os
+import subprocess
 
 top = "."
 out = "build"
@@ -13,6 +14,8 @@ def configure(ctx):
     ctx.find_program("coffee", var="COFFEE", path_list=ctx.env.PATH)
     ctx.find_program("cp", var="COPY", path_list=ctx.env.PATH)
     ctx.env.COFFEE_ARGS = "-co"
+    print "update git submodules"
+    subprocess.check_call(["git", "submodule", "update", "--init"])
 
 
 def build(ctx):
