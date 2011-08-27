@@ -79,20 +79,27 @@ class V3
 
 class Camera
     constructor: (@origin, @topleft, @topright, @bottomleft) ->
+        @offset =
+            start: { x:0.0 , y:0.0 }
+            stop:  { x:1.0 , y:1.0 }
         @update()
 
     update: ->
         @xd = @topright.sub(@topleft)
         @yd = @bottomleft.sub(@topleft)
+        @d =
+            x: @offset.stop.x - @offset.start.x
+            y: @offset.stop.y - @offset.start.y
 
     getMagnitude: (x, y) ->
-        p = @topleft.add(@xd.muls(x))
+        p = @topleft.add(@xd.muls( x*@d.x + @offset.start.x ))
+        p.iadd @yd.muls( y*@d.y + @offset.start.y )
         p.iadd @yd.muls(y)
         p.sub(@origin).magnitude()
 
     getRay: (x, y) ->
-        p = @topleft.add(@xd.muls(x))
-        p.iadd @yd.muls(y)
+        p = @topleft.add(@xd.muls( x*@d.x + @offset.start.x ))
+        p.iadd @yd.muls( y*@d.y + @offset.start.y )
         p.isub @origin
         origin: @origin
         direction: p.normalize()
@@ -348,8 +355,6 @@ class exports.Engine extends Backbone.EventEmitter
 
         @ctx.globalAlpha = 1.00 - @motionblur
         @tick forced:yes
-
-        window.setInterval @tick, 5
 
     tick: ({forced} = {}) =>
         return unless @running or forced
