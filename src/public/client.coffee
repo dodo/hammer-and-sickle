@@ -3,7 +3,7 @@ require './backbone'
 class Client
 
     start: =>
-        $('<div>').text("yeah!").append('body')
+        $('body').append($('<div>').text("yeah!"))
 
 
 module.exports = { client: window.client = client = new Client }
