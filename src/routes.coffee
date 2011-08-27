@@ -6,7 +6,7 @@ canvas = new DrawBuffer
 
 module.exports = bind:(srv) ->
     srv.get '/', (req, res) ->
-        res.render 'index', title:"test"
+        res.render 'index', title:"ray sucker"
 
     # websocket
 
@@ -42,14 +42,18 @@ module.exports = bind:(srv) ->
         listen = (data) ->
             client.emit 'data', data
 
-        client.on 'pause', (paused) ->
-            if paused
+        client.on 'run', (running) ->
+            if running
                 canvas.removeListener 'tick', next_tick
-                canvas.removeListener 'data', listen
                 requested_tick = no
             else
                 canvas.on 'tick', next_tick
-                canvas.on 'data', listen
                 requested_tick = yes
+
+        client.on 'pause', (paused) ->
+            if paused
+                canvas.removeListener 'data', listen
+            else
+                canvas.on 'data', listen
         return
 

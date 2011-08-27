@@ -21,11 +21,20 @@ class exports.Preview
             @engine.animator.t = t
             @engine.tick()
 
-        (button = $('#play.button')).click =>
-            client.api.emit 'pause', @engine.running # inverted
-            @engine.running = !@engine.running
-            button.text ["▸ play", "■ stop"][0+@engine.running]
+        paused = yes
+        (play_button = $('#play.button')).click pause = =>
+            paused = !paused
+            client.api.emit 'pause', paused
+            play_button.text ["■ stop", "▸ play"][0+paused]
             return false
+
+        (part_button = $('#participate.button')).click =>
+            client.api.emit 'run', @engine.running # inverted
+            @engine.running = !@engine.running
+            part_button.text ["participate", "halt"][0+@engine.running]
+            do pause if paused and @engine.running
+            return false
+
 
         fps = $('#fps')
         pending_textures = $('.pending.textures')

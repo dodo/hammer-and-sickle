@@ -11,8 +11,8 @@ div class:'right container', ->
         canvas '#preview', width:64, height:48
 
     div class:'content container', ->
-        p -> a '#play.button', href:'#', "▸ play"
         p -> a '#participate.button', href:'#', "participate"
+        p -> a '#play.button', href:'#', "▸ play"
         p '#viewer.info', "? viewers"
         p '#worker.info', "? workers"
         p '#fps.info',    "? fps"
