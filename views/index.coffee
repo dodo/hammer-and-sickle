@@ -8,5 +8,7 @@ div class:'right container', ->
         canvas '#preview', width:48, height:48
 
     div class:'content container', ->
-        p 'hello'
-        p "world."
+        p ->
+            a class:'button', href:'#', "participate"
+        p '#viewer.info', "? viewers"
+        p '#worker.info', "? workers"

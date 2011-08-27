@@ -11,6 +11,9 @@ body
     font-family:    font-family
     font-size:      7pt
 
+a
+    text-decoration: none
+
 .body
     top:            50%
     width:          100%
@@ -38,6 +41,19 @@ body
     text-align:  left
     line-height: 1pt
 
+    p
+        margin: 4pt 0 6pt 0
+
+    a.button
+        display:    block
+        color:      black
+        background: #efefef
+        padding:    4px 1px 6px 1px
+        &:hover
+            background: black
+            color:      #efefef
+            animation:  monochrome-pulse 0.09s linear infinite alternate
+
 canvas
     background: #902020
 
@@ -46,14 +62,24 @@ canvas
     display:      block
 
 .warning > canvas
-    animation: pulse 1s linear infinite alternate
+    animation: red-pulse 1s linear infinite alternate
 
 vendors = webkit moz official
 
-@keyframes pulse
+@keyframes red-pulse
   from
     background: #902020
 
   to
     background: #f02020
+
+
+@keyframes monochrome-pulse
+  from
+    background: black
+    color:      #efefef
+
+  to
+    background: #efefef
+    color:      black
 
