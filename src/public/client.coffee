@@ -1,5 +1,5 @@
+require './console-dummy'
 require './backbone'
-
 
 
 class Router extends Backbone.Router
