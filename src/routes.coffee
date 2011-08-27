@@ -26,14 +26,14 @@ module.exports = bind:(srv) ->
             return unless requested_tick
             requested_tick = no
 
-            x = random() * canvas.width
-            y = random() * canvas.height
+            x = random() * (canvas.width  - 64 )
+            y = random() * (canvas.height - 48 )
             start =
-                x: (x - 64) / canvas.width
-                y: (y - 48) / canvas.height
-            stop =
                 x: x / canvas.width
                 y: y / canvas.height
+            stop =
+                x: ( x + 64 ) / canvas.width
+                y: ( y + 48 ) / canvas.height
             client.emit 'tick', { t, start, stop }
 
         listen = (data) ->
