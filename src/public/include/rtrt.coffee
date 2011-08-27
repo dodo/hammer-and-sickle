@@ -13,7 +13,7 @@
 
 # helper
 
-geDataFromImage = (img) ->
+getDataFromImage = (img) ->
     canvas = document.createElement "canvas"
     canvas.width = img.width
     canvas.height = img.height
@@ -291,19 +291,19 @@ class FPSCounter
             t = new Date().getTime() / 1000.0
             @fps = Math.round(50.0 / (t - @t) * 100) / 100
             @t = t
-        @ctx.fillText "FPS: " + @fps, 1, 25
+        @ctx.fillText @fps, 1, 10
 
 # exports
 
 class exports.Engine
 
-    constructor: ({@canvas, skysrc}) ->
+    constructor: ({@canvas, skysrc, @quality, @motionblur}) ->
         @ctx = @canvas.getContext "2d"
         @ctx.fillText "Loading textures...", 20, 30
-        @quality = 0.2
-        @motionblur = 0.05
-        @img = document.createElement("img")
-        @img.onload @main
+        @quality ?= 0.2
+        @motionblur ?= 0.05
+        @img = document.createElement "img"
+        @img.onload = @main
         @img.src = skysrc
     main: =>
         camera = new Camera(
@@ -341,10 +341,10 @@ class exports.Engine
         @buffer = document.createElement("canvas")
         @buffer.width = @scene.output.width
         @buffer.height = @scene.output.height
-        @renderer = new Renderer(scene, @buffer.getContext("2d"))
+        @renderer = new Renderer(@scene, @buffer.getContext("2d"))
         @fps = new FPSCounter(@ctx)
 
-        @ctx.globalAlpha = 1.00 - motionblur
+        @ctx.globalAlpha = 1.00 - @motionblur
         window.setInterval (=>
             @animator.tick 0.03
             @scene.camera.update()

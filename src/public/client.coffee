@@ -1,5 +1,6 @@
 require './console-dummy'
 require './backbone'
+{ Preview } = require './controller/preview'
 
 
 class Router extends Backbone.Router
@@ -11,6 +12,10 @@ class Router extends Backbone.Router
         Backbone.history.start pushState:on
 
     index: ->
+        unless client.controller.preview
+            client.controller.preview = preview = new Preview '#preview'
+            client.bind 'start', preview.start
+
 
 
 
@@ -29,16 +34,16 @@ class Client extends Backbone.EventEmitter
                     api.on bind.name, bind.callback
                 for emit in buffered_emits
                     api.emit(emit.name, emit.args...)
-        do @initialize
+        process.nextTick @initialize
 
     controller: {}
 
-    initialize: () ->
+    initialize: =>
         @router = new Router
         @api.on 'view count', (viewer_count) ->
             $('#viewer').text("#{viewer_count} viewers")
 
-    start: () =>
+    start: =>
         dummy = @api
         @api = io.connect "/raytracer", resource:"websocket"
         @api.on 'connect', =>
