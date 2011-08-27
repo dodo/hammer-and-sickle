@@ -19,4 +19,5 @@ class exports.Preview
 
         @engine.bind 'tick', ({canvas}) ->
             pending_textures.hide()
-            client.api.emit 'data', canvas.toDataURL()
+            data = canvas.toDataURL()
+            client.api.emit 'data', data.slice(data.indexOf(',')+1)

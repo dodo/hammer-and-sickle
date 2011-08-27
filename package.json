@@ -23,5 +23,6 @@
 ,   "jquery-browserify": ""
 ,   "underscore": ""
 ,   "backbone": ""
+,   "canvas": ""
   }
 }

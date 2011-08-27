@@ -1,3 +1,7 @@
+{ DrawBuffer } = require './draw-buffer'
+
+canvas = new DrawBuffer
+
 
 module.exports = bind:(srv) ->
     srv.get '/', (req, res) ->
@@ -14,4 +18,4 @@ module.exports = bind:(srv) ->
             client.broadcast.emit 'view count', --connections
 
         client.on 'data', (data) ->
-            console.log "got image data:", data.length
+            canvas.drawBase64 0, 0, data
