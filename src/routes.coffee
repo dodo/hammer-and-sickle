@@ -12,7 +12,6 @@ module.exports = bind:(srv) ->
     connections = 0
 
     srv.ws.of('/raytracer').on 'connection', (client) ->
-        paused = yes
         client.emit 'view count', ++connections
         client.broadcast.emit 'view count', connections
         client.on 'disconnect', ->
@@ -21,5 +20,13 @@ module.exports = bind:(srv) ->
         client.on 'data', (data) ->
             canvas.drawBase64 0, 0, data
 
-        client.on 'pause', (state) ->
-            paused = state
+        listen = (data) ->
+            client.emit 'data', data
+
+        client.on 'pause', (paused) ->
+            if paused
+                canvas.removeListener 'data', listen
+            else
+                canvas.on 'data', listen
+        return
+
