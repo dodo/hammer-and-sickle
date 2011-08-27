@@ -14,9 +14,9 @@ class exports.Preview
 
 
         window.setInterval ( =>
-            @engine.scene.camera.offset.start.x = 0.3
+            @engine.scene.camera.offset.start.x = 0.2
             @engine.scene.camera.offset.start.y = 0.3
-            @engine.scene.camera.offset.stop.x = 0.7
+            @engine.scene.camera.offset.stop.x = 0.8
             @engine.scene.camera.offset.stop.y = 0.7
             #@engine.camera
             @engine.tick()
