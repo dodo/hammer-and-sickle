@@ -8,7 +8,8 @@
 ,   "start": "./raytracer"
   }
 , "dependencies": {
-    "coffee-script": ""
+    "nko": ""
+,   "coffee-script": ""
 ,   "eyes": ""
 ,   "colors": ""
 ,   "cli": ""

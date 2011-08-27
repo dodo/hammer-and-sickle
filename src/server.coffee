@@ -56,6 +56,7 @@ class Cluster extends Master
         @listen @port, @host
         if @isMaster
             console.log("http server listening on %s:%d …".magenta, @host, @port)
+            require('nko') require '../../secret'
 
 # exports
 
