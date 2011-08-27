@@ -46,6 +46,8 @@ class Client extends Backbone.EventEmitter
         @router = new Router
         @api.on 'view count', (viewer_count) ->
             $('#viewer').text("#{viewer_count} viewers")
+        @api.on 'work count', (workers_count) ->
+            $('#worker').text("#{workers_count} workers")
 
     start: =>
         dummy = @api
