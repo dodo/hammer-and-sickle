@@ -10,7 +10,7 @@ class exports.Preview
         @engine = new Engine
             skysrc: "/img/sky.png"
             canvas: @canvas[0]
-            quality: 0.4
+            quality: 1
 
         (button = $('#play.button')).click =>
             client.api.emit 'pause', @engine.running # inverted

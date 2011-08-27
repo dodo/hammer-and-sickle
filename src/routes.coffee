@@ -17,8 +17,15 @@ module.exports = bind:(srv) ->
         client.on 'disconnect', ->
             client.broadcast.emit 'view count', --connections
 
+        [x, y] = [0, 0]
         client.on 'data', (data) ->
-            canvas.drawBase64 0, 0, data
+            canvas.drawBase64 x, y, data, (img) ->
+                x += img.width
+                if x >= canvas.width
+                    x = 0
+                    y += img.height
+                    if y >= canvas.height
+                        [x, y] = [0, 0]
 
         listen = (data) ->
             client.emit 'data', data
