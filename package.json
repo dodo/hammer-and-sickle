@@ -1,0 +1,27 @@
+{ "name": "nko2raytracer"
+, "version": "0.0.0"
+, "author": "dodo"
+, "scripts": {
+    "preinstall": "#preinstall DO NOTHING"
+,   "install": "node-waf configure build"
+,   "update": "node-waf configure build"
+,   "start": "./raytracer"
+  }
+, "dependencies": {
+    "coffee-script": ""
+,   "eyes": ""
+,   "colors": ""
+,   "cli": ""
+,   "express": ""
+,   "coffeekup": ""
+,   "stylus": ""
+,   "cluster": ""
+,   "cluster-socket.io": ""
+,   "log": ""
+,   "socket.io": ""
+,   "browserify": ""
+,   "jquery-browserify": ""
+,   "underscore": ""
+,   "backbone": ""
+  }
+}
