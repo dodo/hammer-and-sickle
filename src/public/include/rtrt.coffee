@@ -307,6 +307,8 @@ class exports.Engine
         @img = document.createElement "img"
         @img.onload = @main
         @img.src = skysrc
+        @running = false
+
     main: =>
         camera = new Camera(
             new V3(0.0, 0.0, -8.4),
@@ -346,11 +348,15 @@ class exports.Engine
         @renderer = new Renderer(@scene, @buffer.getContext("2d"))
 
         @ctx.globalAlpha = 1.00 - @motionblur
-        window.setInterval (=>
-            @animator.tick 0.03
-            @scene.camera.update()
-            @renderer.render()
-            @ctx.drawImage @buffer, 0, 0, @canvas.width, @canvas.height
-            @fps.draw()
-        ), 5
+        @tick forced:yes
+
+        window.setInterval @tick, 5
+
+    tick: ({forced} = {}) =>
+        return unless @running or forced
+        @animator.tick 0.03
+        @scene.camera.update()
+        @renderer.render()
+        @ctx.drawImage @buffer, 0, 0, @canvas.width, @canvas.height
+        @fps.draw()
 
