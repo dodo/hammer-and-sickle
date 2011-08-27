@@ -20,7 +20,7 @@ class Cluster extends Master
     configure: () =>
         console.log("configuring #{['worker','master'][0+@isMaster]} server …")
 
-        ws = @websocket = io.listen(@server)
+        ws = @websocket = @server.ws = io.listen(@server)
         ws.enable('browser client minification')
         ws.enable('browser client etag')
         ws.set('resource', "/websocket")
