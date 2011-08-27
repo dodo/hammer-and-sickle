@@ -42,21 +42,21 @@ module.exports = bind:(srv) ->
         client.on 'run', (running) ->
             if running
                 canvas.removeListener 'tick', next_tick
-                client.emit 'work count', --workers
                 requested_tick = no
             else
                 canvas.on 'tick', next_tick
-                client.emit 'work count', ++workers
                 requested_tick = yes
+            workers = canvas.listeners('tick').length
+            client.emit 'work count', workers
             client.broadcast.emit 'work count', workers
 
         client.on 'pause', (paused) ->
             if paused
                 canvas.removeListener 'data', listen
-                client.emit 'view count', --connections
             else
                 canvas.on 'data', listen
-                client.emit 'view count', ++connections
+            connections = canvas.listeners('data').length
+            client.emit 'view count', connections
             client.broadcast.emit 'view count', connections
         return
 
