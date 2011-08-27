@@ -2,6 +2,7 @@ path = require 'path'
 express = require 'express'
 browserify = require 'browserify'
 coffeekup = require 'coffeekup'
+$_ = require 'underscore'
 stylus = require 'stylus'
 routes = require './routes'
 
@@ -26,7 +27,7 @@ class HTTPServer
     set: => @server.set.apply @server, arguments
     register: => @server.register.apply @server, arguments
     use: (name, args...) =>
-        console.log "* configure #{name} …" if on
+        console.log "* configure #{name} …" if off
         @server.use args...
 
     configure: =>
@@ -63,16 +64,9 @@ class HTTPServer
                 paths: [path.join(cwd, "public")]
                 debug: on
 
-            @register '.coffee',
-                compile: (template, data) ->
-                    data.locals ?= {}
-                    data.locals.coffeekup = coffeekup
-                    data.locals.compile = (template, locals) ->
-                        coffeekup.compile template, {locals}
-                    coffeekup.compile(template, data)
-
+            @register '.coffee', coffeekup.adapters.express
             @set 'view engine', 'coffee'
-            @set 'view options', { layout: no, format: no }
+            @set 'view options', { format: no }
             @set 'views', path.join(cwd, "views")
 
             @use 'static', express.static(path.join(cwd, "public"))

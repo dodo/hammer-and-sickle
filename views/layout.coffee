@@ -12,4 +12,4 @@ html ->
             { client } = require './client'
             $('document').ready client.start
     body ->
-        text "hello world"
+        div '.body', @body
