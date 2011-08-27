@@ -1,4 +1,7 @@
 
+div class:'pending textures container', ->
+    text "loading textures ..."
+
 div class:'video warning container', ->
     canvas '#video', width:300, height:180
 

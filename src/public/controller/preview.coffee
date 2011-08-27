@@ -13,7 +13,10 @@ class exports.Preview
             quality: 0.4
 
         fps = $('#fps')
+        pending_textures = $('.pending.textures')
         @engine.fps.bind 'draw', (value) ->
             fps.text("#{value} fps")
+
         @engine.bind 'tick', ({canvas}) ->
+            pending_textures.hide()
             client.api.emit 'data', canvas.toDataURL()

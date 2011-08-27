@@ -300,7 +300,6 @@ class exports.Engine extends Backbone.EventEmitter
 
     constructor: ({@canvas, skysrc, @quality, @motionblur}) ->
         @ctx = @canvas.getContext "2d"
-        @ctx.fillText "Loading textures...", 20, 30
         @fps = new FPSCounter(@ctx)
         @quality ?= 0.2
         @motionblur ?= 0.05
