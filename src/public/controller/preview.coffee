@@ -13,6 +13,7 @@ class exports.Preview
             quality: 0.4
 
         (button = $('#play.button')).click =>
+            client.api.emit 'pause', @engine.running # inverted
             @engine.running = !@engine.running
             button.text ["▸ play", "■ stop"][0+@engine.running]
             return false
