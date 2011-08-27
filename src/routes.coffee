@@ -18,7 +18,17 @@ module.exports = bind:(srv) ->
         client.on 'disconnect', ->
             client.broadcast.emit 'view count', --connections
 
-        next_tick = ->
+        requested_tick = no
+
+
+        client.on 'data', (data, x, y) ->
+            canvas.drawBase64 x, y, data, ->
+                requested_tick = yes
+
+        next_tick = (t) ->
+            return unless requested_tick
+            requested_tick = no
+
             x = random() * canvas.width
             y = random() * canvas.height
             start =
@@ -27,19 +37,19 @@ module.exports = bind:(srv) ->
             stop =
                 x: x / canvas.width
                 y: y / canvas.height
-            client.emit 'tick', { start, stop }
-
-        client.on 'data', (data, x, y) ->
-            canvas.drawBase64 x, y, data, next_tick
+            client.emit 'tick', { t, start, stop }
 
         listen = (data) ->
             client.emit 'data', data
 
         client.on 'pause', (paused) ->
             if paused
+                canvas.removeListener 'tick', next_tick
                 canvas.removeListener 'data', listen
+                requested_tick = no
             else
+                canvas.on 'tick', next_tick
                 canvas.on 'data', listen
-                next_tick()
+                requested_tick = yes
         return
 

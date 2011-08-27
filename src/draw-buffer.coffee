@@ -5,14 +5,21 @@ Canvas = require 'canvas'
 class exports.DrawBuffer extends EventEmitter
     constructor: () ->
         [@width, @height] = [320, 240]
+        @t = 0.0
         @canvas = new Canvas @width, @height
         @ctx = @canvas.getContext '2d'
-        setInterval @propagate, 200
+        setInterval ( =>
+            @tick()
+            @propagate()
+        ), 200
 
     propagate: =>
         return unless @listeners('data').length
         @canvas.toDataURL 'image/png', (err, data) =>
             @emit 'data', data unless err
+
+    tick: ->
+        @emit 'tick', @t += 0.03
 
     drawBase64: (x, y, data, callback) ->
         img = new Image

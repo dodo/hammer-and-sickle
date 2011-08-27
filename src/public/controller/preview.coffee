@@ -10,14 +10,15 @@ class exports.Preview
         @engine = new Engine
             skysrc: "/img/sky.png"
             canvas: @canvas[0]
-            quality: 1
+            quality: 0.4
 
-        client.api.on 'tick', ({start, stop}) =>
+        client.api.on 'tick', ({t, start, stop}) =>
             #console.log 'in', start.x, start.y, stop.x, stop.y
             @engine.scene.camera.offset.start.x = start.x
             @engine.scene.camera.offset.start.y = start.y
             @engine.scene.camera.offset.stop.x = stop.x
             @engine.scene.camera.offset.stop.y = stop.y
+            @engine.animator.t = t
             @engine.tick()
 
         (button = $('#play.button')).click =>
