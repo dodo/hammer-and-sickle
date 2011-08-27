@@ -58,5 +58,10 @@ module.exports = bind:(srv) ->
             connections = canvas.listeners('data').length
             client.emit 'view count', connections
             client.broadcast.emit 'view count', connections
+
+        client.on 'disconnect', ->
+            canvas.removeListener 'data', listen
+            canvas.removeListener 'tick', next_tick
+
         return
 
