@@ -4,10 +4,10 @@ Canvas = require 'canvas'
 
 class exports.DrawBuffer extends EventEmitter
     constructor: () ->
-        [@width, @height] = [300, 180]
+        [@width, @height] = [320, 240]
         @canvas = new Canvas @width, @height
         @ctx = @canvas.getContext '2d'
-        setInterval @propagate, 500
+        setInterval @propagate, 200
 
     propagate: =>
         return unless @listeners('data').length

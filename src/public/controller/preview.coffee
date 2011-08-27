@@ -12,15 +12,13 @@ class exports.Preview
             canvas: @canvas[0]
             quality: 1
 
-
-        window.setInterval ( =>
-            @engine.scene.camera.offset.start.x = 0.2
-            @engine.scene.camera.offset.start.y = 0.3
-            @engine.scene.camera.offset.stop.x = 0.8
-            @engine.scene.camera.offset.stop.y = 0.7
-            #@engine.camera
+        client.api.on 'tick', ({start, stop}) =>
+            #console.log 'in', start.x, start.y, stop.x, stop.y
+            @engine.scene.camera.offset.start.x = start.x
+            @engine.scene.camera.offset.start.y = start.y
+            @engine.scene.camera.offset.stop.x = stop.x
+            @engine.scene.camera.offset.stop.y = stop.y
             @engine.tick()
-        ), 5
 
         (button = $('#play.button')).click =>
             client.api.emit 'pause', @engine.running # inverted
@@ -33,7 +31,11 @@ class exports.Preview
         @engine.fps.bind 'draw', (value) ->
             fps.text("#{value} fps")
 
-        @engine.bind 'tick', ({canvas}) ->
+        @engine.bind 'tick', ({canvas, renderer}) ->
             pending_textures.hide()
             data = canvas.toDataURL()
-            #client.api.emit 'data', data.slice(data.indexOf(',')+1)
+            c = client.controller.video.canvas[0]
+            p = renderer.getPos(c.width, c.height)
+            #console.log "out", p.x, p.y
+            client.api.emit 'data', data.slice(data.indexOf(',')+1), p.x, p.y
+

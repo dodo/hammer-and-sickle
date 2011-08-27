@@ -212,6 +212,10 @@ class Renderer
             y += ystep
         @ctx.putImageData @img, 0, 0
 
+    getPos: (w, h) =>
+        x: @scene.camera.offset.start.x * (w ? @img.width)
+        y: @scene.camera.offset.start.y * (h ? @img.height)
+
     trace: (ray, n) ->
         mint = Infinity
         hit = null

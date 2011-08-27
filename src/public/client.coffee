@@ -13,14 +13,13 @@ class Router extends Backbone.Router
         Backbone.history.start pushState:on
 
     index: ->
-        unless client.controller.preview
-            client.controller.preview = preview = new Preview '#preview'
-            client.bind 'start', preview.start
-
         unless client.controller.video
             client.controller.video = video = new Video '#video'
             client.bind 'start', video.start
 
+        unless client.controller.preview
+            client.controller.preview = preview = new Preview '#preview'
+            client.bind 'start', preview.start
 
 
 
