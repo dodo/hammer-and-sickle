@@ -12,6 +12,11 @@ class exports.Preview
             canvas: @canvas[0]
             quality: 0.4
 
+        (button = $('#play.button')).click =>
+            @engine.running = !@engine.running
+            button.text ["▸ play", "■ stop"][0+@engine.running]
+            return false
+
         fps = $('#fps')
         pending_textures = $('.pending.textures')
         @engine.fps.bind 'draw', (value) ->
