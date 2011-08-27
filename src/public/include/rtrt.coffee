@@ -282,16 +282,17 @@ class FPSCounter
     constructor: (@ctx) ->
         @t = new Date().getTime() / 1000.0
         @n = 0
-        @fps = 0.0
+        @value = 0.0
 
     draw: ->
         @n++
         if @n is 50
             @n = 0
             t = new Date().getTime() / 1000.0
-            @fps = Math.round(50.0 / (t - @t) * 100) / 100
+            @value = Math.round(50.0 / (t - @t) * 100) / 100
             @t = t
-        @ctx.fillText @fps, 1, 10
+        #@ctx.fillText @value, 1, 10
+        @callback? @value
 
 # exports
 
@@ -300,6 +301,7 @@ class exports.Engine
     constructor: ({@canvas, skysrc, @quality, @motionblur}) ->
         @ctx = @canvas.getContext "2d"
         @ctx.fillText "Loading textures...", 20, 30
+        @fps = new FPSCounter(@ctx)
         @quality ?= 0.2
         @motionblur ?= 0.05
         @img = document.createElement "img"
@@ -342,7 +344,6 @@ class exports.Engine
         @buffer.width = @scene.output.width
         @buffer.height = @scene.output.height
         @renderer = new Renderer(@scene, @buffer.getContext("2d"))
-        @fps = new FPSCounter(@ctx)
 
         @ctx.globalAlpha = 1.00 - @motionblur
         window.setInterval (=>

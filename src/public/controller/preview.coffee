@@ -11,3 +11,7 @@ class exports.Preview
             skysrc: "/img/sky.png"
             canvas: @canvas[0]
             quality: 0.4
+
+        fps = $('#fps')
+        @engine.fps.callback = (value) ->
+            fps.text("#{value} fps")

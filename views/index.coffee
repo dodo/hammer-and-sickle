@@ -12,3 +12,4 @@ div class:'right container', ->
             a class:'button', href:'#', "participate"
         p '#viewer.info', "? viewers"
         p '#worker.info', "? workers"
+        p '#fps.info',    "? fps"
