@@ -13,3 +13,10 @@ html ->
             $('document').ready client.start
     body ->
         div '.body', @body
+        iframe
+            src:"http://nodeknockout.com/iframe/hammer-and-sickle"
+            frameborder:0
+            scrolling:  0
+            allowtransparency:true
+            width: 115
+            height: 25
