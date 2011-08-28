@@ -1,4 +1,3 @@
-require './jquery'
 require './console-dummy'
 require './backbone'
 { Preview } = require './controller/preview'

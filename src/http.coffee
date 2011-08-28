@@ -44,8 +44,9 @@ class HTTPServer
                 require: [
                     'underscore'
                     'backbone'
+                    {jquery:'jquery-browserify'}
+                    path.join(public_path, 'jquery')
                     path.join(public_path, 'client')
-                    jquery:'jquery-browserify'
                 ]
 
             if minification
