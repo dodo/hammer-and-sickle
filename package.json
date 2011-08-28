@@ -10,6 +10,7 @@
 , "dependencies": {
     "nko": ""
 ,   "coffee-script": ""
+,   "bufferstream": ""
 ,   "eyes": ""
 ,   "colors": ""
 ,   "cli": ""
