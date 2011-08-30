@@ -55,14 +55,14 @@ module.exports = bind:(srv) ->
 
 ##########################################
 
-#             x = random() * (canvas.width  - 64 )
-#             y = random() * (canvas.height - 48 )
-#             start =
-#                 x: x / canvas.width
-#                 y: y / canvas.height
-#             stop =
-#                 x: ( x + 64 ) / canvas.width
-#                 y: ( y + 48 ) / canvas.height
+            x = random() * (canvas.width  - 64*size )
+            y = random() * (canvas.height - 48*size )
+            start =
+                x: x / canvas.width
+                y: y / canvas.height
+            stop =
+                x: ( x + 64*size ) / canvas.width
+                y: ( y + 48*size ) / canvas.height
 
 
 ##########################################
@@ -84,20 +84,20 @@ module.exports = bind:(srv) ->
 
 ##########################################
 
-            start =
-                x: pos.x * size
-                y: pos.y * size
-            stop =
-                x: (pos.x + 1) * size
-                y: (pos.y + 1) * size
-
-            pos.x++
-            if pos.x*size > 1
-                pos.x = 0
-                pos.y++
-                if pos.y*size > 1
-                    pos.y = 0
-                    pos.x = 0
+#             start =
+#                 x: pos.x * size
+#                 y: pos.y * size
+#             stop =
+#                 x: (pos.x + 1) * size
+#                 y: (pos.y + 1) * size
+#
+#             pos.x++
+#             if pos.x*size > 1
+#                 pos.x = 0
+#                 pos.y++
+#                 if pos.y*size > 1
+#                     pos.y = 0
+#                     pos.x = 0
 
 ##########################################
 
