@@ -327,10 +327,10 @@ class exports.Engine extends Backbone.EventEmitter
             new V3(-1.3, 1.0, -7.0)
         )
         objects = [
-            new Body(new Sphere(new V3(0.0, 0.0, 3.0), 0.5), new Glass(new V3(1.0, 1.0, 1.0), 1.5))
+            new Body(new Sphere(new V3(0.0, 0.0, 3.0), 0.5), new Chrome(new V3(0.8, 0.5, 0.5)))
             new Body(new Sphere(new V3(0.0, 0.0, 4.5), 0.7), new Chrome(new V3(0.5, 0.5, 0.8)))
             new Body(new Sphere(new V3(0.0, 0.0, 6.0), 0.6), new Chrome(new V3(0.5, 0.8, 0.5)))
-            new Body(new Sphere(new V3(0.0, 0.0, 7.5), 0.5), new Chrome(new V3(0.8, 0.5, 0.5)))
+            new Body(new Sphere(new V3(0.0, 0.0, 7.5), 0.5), new Glass(new V3(1.0, 1.0, 1.0), 1.5))
         ]
         @animator = new Animator @scene =
             sky: new CubeMap(@img)

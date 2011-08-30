@@ -12,29 +12,69 @@ module.exports = bind:(srv) ->
 
     connections = 0
     workers = 0
+    #count = 0
+    pos = x:0, y:0
 
     srv.ws.of('/raytracer').on 'connection', (client) ->
         requested_tick = no
+        last_time = -1
+
         client.emit 'view count', connections
         client.emit 'work count', workers
 
         client.on 'data', (data, x, y) ->
-            canvas.drawBase64 x, y, data, ->
+            canvas.drawBase64 x, y, data, last_time, ->
                 requested_tick = yes
 
-        next_tick = (t) ->
+        next_tick = (now, size, t) ->
             return unless requested_tick
             requested_tick = no
+            last_time = now
 
-            x = random() * (canvas.width  - 64 )
-            y = random() * (canvas.height - 48 )
+#             x = random() * (canvas.width  - 64 )
+#             y = random() * (canvas.height - 48 )
+#             start =
+#                 x: x / canvas.width
+#                 y: y / canvas.height
+#             stop =
+#                 x: ( x + 64 ) / canvas.width
+#                 y: ( y + 48 ) / canvas.height
+
+
+#             start =
+#                 x: pos.x * 0.15
+#                 y: pos.y * 0.15
+#             stop =
+#                 x: (pos.x + 1) * 0.15
+#                 y: (pos.y + 1) * 0.15
+#
+#             pos.y++
+#             if pos.y is 6
+#                 pos.y = 0
+#                 pos.x++
+#                 if pos.x is 6
+#                     pos.x = 0
+#                     pos.y = 0
+
             start =
-                x: x / canvas.width
-                y: y / canvas.height
+                x: pos.x * size
+                y: pos.y * size
             stop =
-                x: ( x + 64 ) / canvas.width
-                y: ( y + 48 ) / canvas.height
-            client.emit 'tick', { t, start, stop }
+                x: (pos.x + 1) * size
+                y: (pos.y + 1) * size
+
+            pos.x++
+            if pos.x*size > 1
+                pos.x = 0
+                pos.y++
+                if pos.y*size > 1
+                    pos.y = 0
+                    pos.x = 0
+
+            #count++
+            #count = 0 if count >= workers
+
+            client.emit 'tick', { t, start, stop, size }
 
         listen = (data) ->
             client.emit 'data', data

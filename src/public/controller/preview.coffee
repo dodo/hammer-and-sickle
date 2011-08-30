@@ -12,13 +12,15 @@ class exports.Preview
             canvas: @canvas[0]
             quality: 1.0
 
-        client.api.on 'tick', ({t, start, stop}) =>
+        client.api.on 'tick', ({t, start, stop, size}) =>
             #console.log 'in', start.x, start.y, stop.x, stop.y
             @engine.scene.camera.offset.start.x = start.x
             @engine.scene.camera.offset.start.y = start.y
             @engine.scene.camera.offset.stop.x = stop.x
             @engine.scene.camera.offset.stop.y = stop.y
             @engine.animator.t = t
+            @engine.scene.output.width  = @canvas.width  * size
+            @engine.scene.output.height = @canvas.height * size
             @engine.tick()
 
         paused = yes
