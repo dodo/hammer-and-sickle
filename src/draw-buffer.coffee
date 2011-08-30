@@ -5,17 +5,18 @@ PostBuffer = require 'bufferstream/postbuffer'
 Canvas = require 'canvas'
 { Image } = Canvas
 
-len = 0
-count = 0
+
 class exports.DrawBuffer extends EventEmitter
     constructor: () ->
         [@width, @height] = [320, 240]
         @t = 0.0
+        @count = 0
+
         @source = net.createConnection 3030, 'localhost'
         @sink = net.createConnection 3020, 'localhost'
 
         @buffer =
-            src: new BufferStream(encoding:'binary', size:'flexible')
+            src: new BufferStream(encoding:'binary', size:'none')
         @buffer.src.disable()
         @buffer.src.pipe(@source)
 
@@ -23,30 +24,22 @@ class exports.DrawBuffer extends EventEmitter
 
         @canvas = new Canvas @width, @height
         @ctx = @canvas.getContext '2d'
-        setInterval ( =>
-            @tick()
-            #@propagate()
-        ), 100
-        setInterval ( =>
-            #@tick()
-            @propagate()
-        ), 100
+#         setInterval ( =>
+#             @tick()
+#             #@propagate()
+#         ), 100
+        setTimeout @tick, 50
 
     propagate: =>
-        if @buffer.src.buffer.length < 8000
-            new PostBuffer(@canvas.createPNGStream()).onEnd @buffer.src.write
-        else
-            console.log "full", @buffer.src.buffer.length
-        #@buffer.src.write '\r\n'
-        #return unless @listeners('data').length
-
-#         @canvas.toDataURL 'image/png', (err, data) =>
-#             @emit 'data', data unless err
+        new PostBuffer(@canvas.createPNGStream()).onEnd @buffer.src.write
 
     tick: =>
         workers = @listeners('tick').length
         size = 1 / workers
+        @count = 0
         @emit 'tick', (new Date).getTime(), size, @t += 0.03
+        @propagate()
+        @timeout = setTimeout @tick, 150
 
     drawBase64: (x, y, data, last_time, callback) ->
         d = (new Date).getTime() - last_time
@@ -60,7 +53,13 @@ class exports.DrawBuffer extends EventEmitter
         img = new Image
         img.onload = =>
             #@ctx.globalAlpha = alpha
-            @ctx.drawImage img, x, y, img.width*size, img.height*size
+            @ctx.drawImage img, x*0.95, y*0.95, img.width*size*1.05, img.height*size*1.05
             callback? img
+
+            @count++
+            if count >= workers
+                clearTimeout @timeout
+                @tick()
+
         img.src = new Buffer data, 'base64'
 

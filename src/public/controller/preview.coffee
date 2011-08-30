@@ -46,7 +46,9 @@ class exports.Preview
         @engine.bind 'tick', ({canvas, renderer}) ->
             pending_textures.hide()
             data = canvas.toDataURL()
-            c = client.controller.preview.canvas[0]
+            c = #client.controller.preview.canvas[0]
+                width:  320
+                height: 240
             p = renderer.getPos(c.width, c.height)
             #console.log "out", p.x, p.y
             client.api.emit 'data', data.slice(data.indexOf(',')+1), p.x, p.y

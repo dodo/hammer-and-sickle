@@ -20,7 +20,8 @@ module.exports = bind:(srv) ->
         #res.writeHead 200, header
 
         console.log "=========>   video", canvas.sink.listeners('data').length+1
-        buffer = new BufferStream encoding:'binary', size:'flexible'
+        require('fs').writeFile('./test.png', canvas.canvas.toBuffer(), 'binary')
+        buffer = new BufferStream encoding:'binary', size:'none'
         buffer.disable()
         buffer.pipe(res)
         canvas.sink.on 'data', buffer.write
@@ -51,6 +52,9 @@ module.exports = bind:(srv) ->
             requested_tick = no
             last_time = now
 
+
+##########################################
+
 #             x = random() * (canvas.width  - 64 )
 #             y = random() * (canvas.height - 48 )
 #             start =
@@ -60,6 +64,8 @@ module.exports = bind:(srv) ->
 #                 x: ( x + 64 ) / canvas.width
 #                 y: ( y + 48 ) / canvas.height
 
+
+##########################################
 
 #             start =
 #                 x: pos.x * 0.15
@@ -76,6 +82,8 @@ module.exports = bind:(srv) ->
 #                     pos.x = 0
 #                     pos.y = 0
 
+##########################################
+
             start =
                 x: pos.x * size
                 y: pos.y * size
@@ -91,13 +99,15 @@ module.exports = bind:(srv) ->
                     pos.y = 0
                     pos.x = 0
 
+##########################################
+
             #count++
             #count = 0 if count >= workers
 
             client.emit 'tick', { t, start, stop, size }
 
-        listen = (data) ->
-            client.emit 'data', data
+#         listen = (data) ->
+#             client.emit 'data', data
 
         client.on 'run', (running) ->
             if running
@@ -110,17 +120,17 @@ module.exports = bind:(srv) ->
             client.emit 'work count', workers
             client.broadcast.emit 'work count', workers
 
-        client.on 'pause', (paused) ->
-            if paused
-                canvas.removeListener 'data', listen
-            else
-                canvas.on 'data', listen
-            connections = canvas.listeners('data').length
-            client.emit 'view count', connections
-            client.broadcast.emit 'view count', connections
+#         client.on 'pause', (paused) ->
+#             if paused
+#                 canvas.removeListener 'data', listen
+#             else
+#                 canvas.on 'data', listen
+#             connections = canvas.listeners('data').length
+#             client.emit 'view count', connections
+#             client.broadcast.emit 'view count', connections
 
         client.on 'disconnect', ->
-            canvas.removeListener 'data', listen
+            #canvas.removeListener 'data', listen
             canvas.removeListener 'tick', next_tick
 
         return

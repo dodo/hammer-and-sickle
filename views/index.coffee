@@ -3,7 +3,9 @@ div class:'pending textures container', ->
     text "loading textures ..."
 
 div class:'video warning container', ->
-    canvas '#video', width:320, height:240
+    #canvas '#video', width:320, height:240
+    video width:320, height:240, ->
+        source src:"/stream"
 
 div class:'right container', ->
 
