@@ -19,8 +19,7 @@ module.exports = bind:(srv) ->
         return if req.method is 'HEAD'
         #res.writeHead 200, header
 
-        console.log "=========>   video"
-        require('fs').writeFile('./test.png', canvas.canvas.toBuffer(), 'binary')
+        console.log "=========>   video", canvas.sink.listeners('data').length+1
         buffer = new BufferStream encoding:'binary', size:'flexible'
         buffer.disable()
         buffer.pipe(res)

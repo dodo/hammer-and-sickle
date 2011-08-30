@@ -20,14 +20,12 @@ class png2video:
             "tcpserversrc name=tcpin",
             "queue",
             #"tee name=tcp",
-            "capsfilter caps=\"image/png, width=320, height=240, framerate=20/1\"",
-            "videorate",
-            "capsfilter caps=\"image/png, framerate=25/1\"",
+            "capsfilter caps=\"image/png, width=320, height=240, framerate=1/1\"",
             "pngdec",
+            "videorate",
+            "capsfilter caps=\"video/x-raw-rgb, framerate=25/1\"",
             "ffmpegcolorspace",
-            "ffenc_mjpeg",
-            "ffmux_mp4",
-            "queue",
+            "ffenc_mpeg4 max-bframes=16",
             "tcpserversink name=tcpout"
         ]))
         #]) + " tcp. ! fakesink name=fake" )

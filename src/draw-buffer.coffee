@@ -20,19 +20,6 @@ class exports.DrawBuffer extends EventEmitter
         @buffer.src.disable()
         @buffer.src.pipe(@source)
 
-        @buffer.src.on 'data', (chunk) ->
-            len += chunk.length
-            count++
-            console.log "bbb", chunk.length, count
-            #console.log "buffer.src.chunk", chunk.length, count, chunk
-        @source.on 'close', ->
-            console.log "FAIL"
-        @sink.on 'close', ->
-            console.log len, count
-            process.exit()
-        @sink.on 'data', (chunk) ->
-            console.log "canvas.sink.chunk", chunk.length
-
 
 
         @canvas = new Canvas @width, @height
@@ -43,25 +30,11 @@ class exports.DrawBuffer extends EventEmitter
         ), 100
 
     propagate: =>
-        #xxx = net.createConnection 3030, 'localhost'
-        #xxx.once 'connect', =>
-        #    s = @canvas.createPNGStream()
-        #    s.pipe(xxx)
-        #    len = 0
-        #    s.on 'data', (chunk) ->
-        #        len += chunk.length
-        #    s.on 'end', -> console.log len
-        #@canvas.createPNGStream().pipe(@buffer.src, end:off)
         if @mutex
             console.log "MUTEX!!!!!!!!!!!!"
             return
         if @buffer.src.buffer.length < 8000
             new PostBuffer(@canvas.createPNGStream()).onEnd @buffer.src.write
-            #@canvas.toBuffer (err, buf) =>
-            #    if err
-            #        console.log "ERROR", err
-            #        return
-            #    @buffer.src.write buf, 'binary'
         else
             console.log "full", @buffer.src.buffer.length
         #@buffer.src.write '\r\n'
