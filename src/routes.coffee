@@ -1,3 +1,4 @@
+BufferStream = require 'bufferstream'
 { DrawBuffer } = require './draw-buffer'
 { random } = Math
 
@@ -7,6 +8,25 @@ canvas = new DrawBuffer
 module.exports = bind:(srv) ->
     srv.get '/', (req, res) ->
         res.render 'index', title:"ray sucker"
+
+    srv.get  '/stream', (req, res) ->
+        res.header(k, v) for k, v of {
+            'Date'         :new Date().toUTCString()
+            'Connection'   :'close'
+            'Cache-Control':'private'
+            'Content-Type' :'video/mpeg'
+            'Server'       :'RaySucker/0.0.0' }
+        return if req.method is 'HEAD'
+        #res.writeHead 200, header
+
+        console.log "=========>   video", canvas.sink.listeners('data').length+1
+        buffer = new BufferStream encoding:'binary', size:'flexible'
+        buffer.disable()
+        buffer.pipe(res)
+        canvas.sink.on 'data', buffer.write
+        res.connection.once 'close', ->
+            console.log "<---------   video"
+            canvas.sink.removeListener 'data', buffer.write
 
     # websocket
 
