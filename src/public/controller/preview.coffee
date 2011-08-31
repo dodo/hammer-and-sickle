@@ -19,8 +19,8 @@ class exports.Preview
             @engine.scene.camera.offset.stop.x = stop.x
             @engine.scene.camera.offset.stop.y = stop.y
             @engine.animator.t = t
-            @engine.scene.output.width  = @canvas.width  * size
-            @engine.scene.output.height = @canvas.height * size
+            #@engine.scene.output.width  = @canvas.width  * size
+            #@engine.scene.output.height = @canvas.height * size
             @engine.tick()
 
         paused = yes

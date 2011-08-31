@@ -14,7 +14,7 @@ module.exports = bind:(srv) ->
             'Date'         :new Date().toUTCString()
             'Connection'   :'close'
             'Cache-Control':'private'
-            'Content-Type' :'video/mpeg'
+            'Content-Type' :'video/webm'
             'Server'       :'RaySucker/0.0.0' }
         return if req.method is 'HEAD'
         #res.writeHead 200, header

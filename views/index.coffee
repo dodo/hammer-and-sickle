@@ -4,8 +4,8 @@ div class:'pending textures container', ->
 
 div class:'video warning container', ->
     #canvas '#video', width:320, height:240
-    video width:320, height:240, ->
-        source src:"/stream"
+    video width:320, height:240, autoplay:'autoplay', src:"/stream", ->
+        source src:"/stream", type:'video/webm; codecs="webm"'
 
 div class:'right container', ->
 

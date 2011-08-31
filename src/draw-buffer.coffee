@@ -35,7 +35,7 @@ class exports.DrawBuffer extends EventEmitter
 
     tick: =>
         workers = @listeners('tick').length
-        size = 1 / workers
+        size = 1#1 / workers
         @count = 0
         @emit 'tick', (new Date).getTime(), size, @t += 0.03
         @propagate()
@@ -48,12 +48,13 @@ class exports.DrawBuffer extends EventEmitter
         #alpha = d * 0.005
 
         workers = @listeners('tick').length
-        size = 5 / workers
+        size = 1#5 / workers
 
         img = new Image
         img.onload = =>
             #@ctx.globalAlpha = alpha
-            @ctx.drawImage img, x*0.95, y*0.95, img.width*size*1.05, img.height*size*1.05
+            #@ctx.drawImage img, x*0.95, y*0.95, img.width*size*1.05, img.height*size*1.05
+            @ctx.drawImage img, x, y, img.width, img.height
             callback? img
 
             @count++

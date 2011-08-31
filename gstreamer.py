@@ -25,7 +25,8 @@ class png2video:
             "videorate",
             "capsfilter caps=\"video/x-raw-rgb, framerate=25/1\"",
             "ffmpegcolorspace",
-            "ffenc_mpeg4 max-bframes=16",
+            "vp8enc mode=cbr error-resilient=true max-keyframe-distance=10 auto-alt-ref-frames=true",
+            "webmmux streamable=true min-index-interval=1000",
             "tcpserversink name=tcpout"
         ]))
         #]) + " tcp. ! fakesink name=fake" )
